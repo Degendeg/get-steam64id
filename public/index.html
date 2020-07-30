@@ -1,0 +1,89 @@
+<!doctype html>
+<html>
+   <head>
+      <title>steam64id</title>
+      <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.1/css/bootstrap.min.css">
+      <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.1/css/bootstrap-theme.min.css">
+	  <style>
+	  .box {
+		background: #fff;
+		border-left: 5px solid #333;
+		padding: 10px;
+		margin-top: 15px;
+	  }
+	  .margin-100 {
+		margin: 100px;
+	  }
+	  .width-100 {
+		width: 100%;
+	  }
+	  .padding-40 {
+		padding: 40px;
+	  }
+	  .line-height-30 {
+		line-height: 30px;
+	  }
+	  .display-none {
+		display: none;
+	  }
+	  </style>
+   </head>
+   <body>
+      <div class="margin-100">
+         <nav class="navbar navbar-inverse navbar-static-top">
+            <div class="container width-100">
+               <a class="navbar-brand" href="/">steam64id</a>
+            </div>
+         </nav>
+         <div class="jumbotron padding-40">
+            <form id="steamURLForm">
+               <div class="form-group">
+                  <input type="text" class="form-control" id="steamURLname" aria-describedby="steamURLnameHelp" name="urlname" placeholder="Steam URL name here">
+                  <small id="steamURLnameHelp" class="form-text text-muted">Go to <a href="https://steamcommunity.com/" target="_blank">Steam</a> and get your URL name. Example (grab fat text): https://steamcommunity.com/id/<b>examplenamehere</b>/</small>
+               </div>
+               <button type="submit" class="btn btn-primary">Submit</button>
+            </form>
+			<div id="result1" class="box line-height-30 display-none"></div>
+            <form id="steamVerifyForm" class="display-none">
+               <div class="form-group">
+                  <input type="hidden" class="form-control" id="steam64id" aria-describedby="steam64idHelp" name="steamid">
+               </div>
+               <button type="submit" class="btn btn-primary">Submit</button>
+            </form>
+			<div id="result2" class="box display-none"></div>
+         </div>
+      </div>
+	  <!-- Scripts -->
+	  <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>
+	  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.1/js/bootstrap.min.js"></script>
+	  <script src="https://cdn.jsdelivr.net/npm/clipboard@2.0.6/dist/clipboard.min.js"></script>
+	  <script>
+		$('#steamURLForm').submit(function() {
+			$('#result2').html('');
+			$.post('/id', {urlname: $('#steamURLname').val()}, function(response) {
+				if (response == "") {
+					$('#result1').show();
+					$('#steamVerifyForm').hide();
+					$('#result2').hide();
+					$('#result1').html('No match found. Try again!');
+				}
+				else {
+					$('#result1').show();
+					$.post('/data', {steamid: response}, function(res) {
+						$('#result2').show();
+						$('#result2').html(
+							'Username: <b>' + res[0].personaname + 
+							'</b><br /> Profile: <a href="' + res[0].profileurl + 
+							'" target="_blank">' + res[0].profileurl + 
+							'</a>' + '<br /> Avatar: <img src="' + res[0].avatar + '" />'
+						);
+						$('#result1').html('Steam64id: <span class="steam64id-span"><b>' + response + '</b></span><button id="copyToClipboardBtn" data-clipboard-target=".steam64id-span" class="btn btn-info inline-block pull-right">Copy to clipboard</button>');
+						new ClipboardJS('#copyToClipboardBtn');
+					});
+				}
+			});
+			return false;
+		});
+	  </script>
+   </body>
+</html>
