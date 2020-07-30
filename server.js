@@ -4,6 +4,7 @@ var request = require('request');
 var bodyParser = require('body-parser');
 var favicon = require('serve-favicon');
 var path = require('path');
+var port = process.env.PORT || 3000;
 
 app.use(bodyParser.urlencoded({
     extended: true
@@ -43,6 +44,6 @@ app.post('/data', function(req, res) {
     });
 });
 
-app.listen(1337, function(req) {
-	console.log('Running and listening on port 1337');
+app.listen(port, function(req) {
+	console.log('Running and listening on port ' + port);
 });
