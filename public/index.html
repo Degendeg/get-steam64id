@@ -58,32 +58,35 @@
 	  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.1/js/bootstrap.min.js"></script>
 	  <script src="https://cdn.jsdelivr.net/npm/clipboard@2.0.6/dist/clipboard.min.js"></script>
 	  <script>
-		$('#steamURLForm').submit(function() {
-			$('#result2').html('');
-			$.post('/id', {urlname: $('#steamURLname').val()}, function(response) {
-				if (response == "") {
-					$('#result1').show();
-					$('#steamVerifyForm').hide();
-					$('#result2').hide();
-					$('#result1').html('No match found. Try again!');
-				}
-				else {
-					$('#result1').show();
-					$.post('/data', {steamid: response}, function(res) {
-						$('#result2').show();
-						$('#result2').html(
-							'Username: <b>' + res[0].personaname + 
-							'</b><br /> Profile: <a href="' + res[0].profileurl + 
-							'" target="_blank">' + res[0].profileurl + 
-							'</a>' + '<br /> Avatar: <img src="' + res[0].avatar + '" />'
-						);
-						$('#result1').html('Steam64id: <span class="steam64id-span"><b>' + response + '</b></span><button id="copyToClipboardBtn" data-clipboard-target=".steam64id-span" class="btn btn-info inline-block pull-right">Copy to clipboard</button>');
-						new ClipboardJS('#copyToClipboardBtn');
-					});
-				}
-			});
-			return false;
-		});
+	  $('#steamURLForm').submit(function() {
+	    $('#result2').html('');
+	    $.post('/id', {
+		urlname: $('#steamURLname').val()
+	    }, function(response) {
+		if (response == "") {
+		    $('#result1').show();
+		    $('#steamVerifyForm').hide();
+		    $('#result2').hide();
+		    $('#result1').html('No match found. Try again!');
+		} else {
+		    $('#result1').show();
+		    $.post('/data', {
+			steamid: response
+		    }, function(res) {
+			$('#result2').show();
+			$('#result2').html(
+			    'Username: <b>' + res[0].personaname +
+			    '</b><br /> Profile: <a href="' + res[0].profileurl +
+			    '" target="_blank">' + res[0].profileurl +
+			    '</a>' + '<br /> Avatar: <img src="' + res[0].avatar + '" />'
+			);
+			$('#result1').html('Steam64id: <span class="steam64id-span"><b>' + response + '</b></span><button id="copyToClipboardBtn" data-clipboard-target=".steam64id-span" class="btn btn-info inline-block pull-right">Copy to clipboard</button>');
+			new ClipboardJS('#copyToClipboardBtn');
+		    });
+		}
+	    });
+	    return false;
+	  });
 	  </script>
    </body>
 </html>
