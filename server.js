@@ -11,7 +11,6 @@ app.use(bodyParser.urlencoded({
 }));
 
 app.use(bodyParser.json());
-
 app.use(favicon(path.join(__dirname, 'public', 'favicon.ico')));
 
 app.get('/', function(req, res) {
@@ -26,9 +25,9 @@ app.post('/id', function(req, res) {
         url: url,
         json: true
     }, function(error, response, body) {
-		if (!error && response.statusCode === 200) {
-			res.send(body.response.steamid);
-		}
+        if (!error && response.statusCode === 200) {
+            res.send(body.response.steamid);
+        }
     });
 });
 
@@ -38,12 +37,12 @@ app.post('/data', function(req, res) {
         url: url,
         json: true
     }, function(error, response, body) {
-		if (!error && response.statusCode === 200) {
-			res.send(body.response.players);
-		}
+        if (!error && response.statusCode === 200) {
+            res.send(body.response.players);
+        }
     });
 });
 
 app.listen(port, function(req) {
-	console.log('Running and listening on port ' + port);
+    console.log('Running and listening on port ' + port);
 });
