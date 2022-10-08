@@ -6,6 +6,8 @@ var favicon = require('serve-favicon');
 var path = require('path');
 var port = process.env.PORT || 3000;
 
+const key = '76E27A0140FE2CEA54ECFB5EE5E325E1';
+
 app.use(bodyParser.urlencoded({
     extended: true
 }));
@@ -20,7 +22,7 @@ app.get('/', function(req, res) {
 });
 
 app.post('/id', function(req, res) {
-    var url = "http://api.steampowered.com/ISteamUser/ResolveVanityURL/v0001/?key=0B1CA19AF860ADE431EA9253E98D7B83&vanityurl=" + req.body.urlname;
+    var url = "http://api.steampowered.com/ISteamUser/ResolveVanityURL/v0001/?key=" + key + "&vanityurl=" + req.body.urlname;
     request({
         url: url,
         json: true
@@ -32,7 +34,7 @@ app.post('/id', function(req, res) {
 });
 
 app.post('/data', function(req, res) {
-    var url = "http://api.steampowered.com/ISteamUser/GetPlayerSummaries/v0002/?key=0B1CA19AF860ADE431EA9253E98D7B83&steamids=" + req.body.steamid;
+    var url = "http://api.steampowered.com/ISteamUser/GetPlayerSummaries/v0002/?key=" + key + "&steamids=" + req.body.steamid;
     request({
         url: url,
         json: true

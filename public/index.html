@@ -61,7 +61,7 @@
 	  $('#steamURLForm').submit(function() {
 	    $('#result2').html('');
 	    $.post('/id', {
-		urlname: $('#steamURLname').val()
+			urlname: $('#steamURLname').val()
 	    }, function(response) {
 		if (response == "") {
 		    $('#result1').show();
